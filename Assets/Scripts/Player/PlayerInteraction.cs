@@ -11,6 +11,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private PlayerControls controls;
     private IInteractable currentInteractable;
+    [SerializeField] private GameObject interactionText;
 
     private void Awake()
     {
@@ -39,12 +40,14 @@ public class PlayerInteraction : MonoBehaviour
     {
         Collider[] hits = Physics.OverlapSphere(interactionPoint.position, interactionRadius, interactionLayer);
         currentInteractable = null;
+        interactionText.SetActive(false);
 
         foreach (Collider hit in hits)
         {
             if (hit.TryGetComponent(out IInteractable interactable))
             {
                 currentInteractable = interactable;
+                interactionText.SetActive(true);
                 break;
             }
         }

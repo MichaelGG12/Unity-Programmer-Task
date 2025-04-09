@@ -13,6 +13,7 @@ public class InventoryManager : MonoBehaviour
     private InventoryItemFactory _itemFactory;
 
     [SerializeField] private DataPanel dataPanel;
+    [SerializeField] private UIManager uiManager;
 
     private void Awake()
     {
@@ -116,6 +117,8 @@ public class InventoryManager : MonoBehaviour
             }
         }
         InventorySaveSystem.Save(data);
+
+        uiManager.ShowMessage("Successfully saved.");
     }
 
     public void LoadInventory()
