@@ -44,6 +44,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e8f7fd3-59e4-40d6-92db-a3f98d4a5143"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a2105c4-9038-4c5c-bf54-5fbe4e087d02"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +141,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43d76c3d-e486-4775-94eb-dd208ffd1dc3"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b5984d7-daee-4464-bee9-d8e26690c515"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -133,6 +173,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
         m_InGame_Movement = m_InGame.FindAction("Movement", throwIfNotFound: true);
         m_InGame_Interact = m_InGame.FindAction("Interact", throwIfNotFound: true);
+        m_InGame_OpenInventory = m_InGame.FindAction("OpenInventory", throwIfNotFound: true);
+        m_InGame_MouseClick = m_InGame.FindAction("MouseClick", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -201,12 +243,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IInGameActions> m_InGameActionsCallbackInterfaces = new List<IInGameActions>();
     private readonly InputAction m_InGame_Movement;
     private readonly InputAction m_InGame_Interact;
+    private readonly InputAction m_InGame_OpenInventory;
+    private readonly InputAction m_InGame_MouseClick;
     public struct InGameActions
     {
         private @PlayerControls m_Wrapper;
         public InGameActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_InGame_Movement;
         public InputAction @Interact => m_Wrapper.m_InGame_Interact;
+        public InputAction @OpenInventory => m_Wrapper.m_InGame_OpenInventory;
+        public InputAction @MouseClick => m_Wrapper.m_InGame_MouseClick;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -222,6 +268,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @OpenInventory.started += instance.OnOpenInventory;
+            @OpenInventory.performed += instance.OnOpenInventory;
+            @OpenInventory.canceled += instance.OnOpenInventory;
+            @MouseClick.started += instance.OnMouseClick;
+            @MouseClick.performed += instance.OnMouseClick;
+            @MouseClick.canceled += instance.OnMouseClick;
         }
 
         private void UnregisterCallbacks(IInGameActions instance)
@@ -232,6 +284,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @OpenInventory.started -= instance.OnOpenInventory;
+            @OpenInventory.performed -= instance.OnOpenInventory;
+            @OpenInventory.canceled -= instance.OnOpenInventory;
+            @MouseClick.started -= instance.OnMouseClick;
+            @MouseClick.performed -= instance.OnMouseClick;
+            @MouseClick.canceled -= instance.OnMouseClick;
         }
 
         public void RemoveCallbacks(IInGameActions instance)
@@ -253,5 +311,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
+        void OnMouseClick(InputAction.CallbackContext context);
     }
 }

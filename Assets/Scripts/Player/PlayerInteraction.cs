@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private InteractionFactory interactionFactory;
+    private InteractionFactory interactionFactory;
     [SerializeField] private Transform interactionPoint;
     [SerializeField] private float interactionRadius = 1f;
     [SerializeField] private LayerMask interactionLayer;
@@ -15,6 +15,7 @@ public class PlayerInteraction : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
+        interactionFactory = gameObject.AddComponent<InteractionFactory>();
     }
 
     private void OnEnable()

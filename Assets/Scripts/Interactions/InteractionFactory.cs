@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum InteractionType { PickUp, Dialogue }
 
-public class InteractionFactory : MonoBehaviour
+public class InteractionFactory : MonoBehaviour, IInteractionFactory
 {
     public void HandleInteraction(Animator animator, InteractionType type)
     {
